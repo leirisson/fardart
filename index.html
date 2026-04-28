@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FARDART — Fardamentos & Uniformes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0D1B2A;
+      --navy2:  #152030;
+      --white:  #F7F5F0;
+      --offwhite: #EDE9E1;
+      --gold:   #C8972A;
+      --gold-lt:#E4B84A;
+      --mid:    #6B7280;
+      --border: rgba(255,255,255,0.10);
+      --radius: 20px;
+      --ease:   cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+    /* ─────────────────────────────────────────
+       NAV
+    ───────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(13,27,42,0.72);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .nav-logo span {
+      display: inline-block;
+      width: 10px; height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity:1; }
+      50% { transform: scale(1.4); opacity:.7; }
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: .875rem; font-weight: 500; letter-spacing: .04em;
+      color: rgba(247,245,240,.7);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color .25s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      padding: 10px 26px;
+      background: var(--gold);
+      color: var(--navy) !important;
+      border-radius: 50px;
+      font-weight: 600 !important;
+      font-size: .875rem;
+      letter-spacing: .04em;
+      transition: background .25s, transform .2s !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--gold-lt) !important;
+      color: var(--navy) !important;
+      transform: translateY(-1px);
+    }
+
+    /* ─────────────────────────────────────────
+       HERO — FRAME SEQUENCE (fardamento1)
+    ───────────────────────────────────────── */
+    #hero {
+      position: relative;
+      width: 100%; height: 100svh;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-canvas {
+      position: absolute; inset: 0;
+    }
+
+    .hero-canvas canvas {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* dark gradient over the frame */
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        105deg,
+        rgba(13,27,42,0.90) 0%,
+        rgba(13,27,42,0.55) 50%,
+        rgba(13,27,42,0.15) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 6vw;
+      max-width: 760px;
+      animation: heroIn 1.2s var(--ease) forwards;
+      opacity: 0;
+      transform: translateY(32px);
+    }
+
+    @keyframes heroIn {
+      to { opacity:1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: .75rem; font-weight: 500;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block; width: 32px; height: 1px;
+      background: var(--gold);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 7vw, 6.5rem);
+      font-weight: 900;
+      line-height: 1.04;
+      letter-spacing: -.02em;
+      margin-bottom: 28px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem; font-weight: 300; line-height: 1.7;
+      color: rgba(247,245,240,.72);
+      max-width: 460px;
+      margin-bottom: 44px;
+    }
+
+    .btn-group { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    .btn-primary {
+      padding: 16px 36px;
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600; font-size: .95rem;
+      letter-spacing: .04em;
+      border: none; border-radius: 50px;
+      cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 10px;
+      transition: background .25s, transform .2s, box-shadow .25s;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-lt);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(200,151,42,.35);
+    }
+
+    .btn-primary svg { width:18px; height:18px; fill: none; stroke: var(--navy); stroke-width:2; }
+
+    .btn-outline {
+      padding: 16px 36px;
+      background: transparent;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500; font-size: .95rem;
+      letter-spacing: .04em;
+      border: 1.5px solid rgba(247,245,240,.3);
+      border-radius: 50px;
+      cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 10px;
+      transition: border-color .25s, background .25s, transform .2s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--white);
+      background: rgba(247,245,240,.06);
+      transform: translateY(-2px);
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: .5;
+      animation: heroIn 1.6s var(--ease) .6s forwards;
+      opacity: 0;
+    }
+
+    .scroll-hint span {
+      font-family: 'DM Mono', monospace;
+      font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--white), transparent);
+      animation: scrollLine 1.8s ease-in-out infinite;
+    }
+
+    @keyframes scrollLine {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* stats bar */
+    .stats-bar {
+      position: absolute; bottom: 0; right: 0;
+      display: flex; gap: 1px;
+      z-index: 2;
+    }
+
+    .stat-item {
+      padding: 24px 36px;
+      background: rgba(13,27,42,.8);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .stat-item strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem; font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stat-item small {
+      font-size: .72rem; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(247,245,240,.55);
+      margin-top: 4px; display: block;
+    }
+
+    /* ─────────────────────────────────────────
+       SECTION: UNIFORME ESCOLAR — DIVIDER
+    ───────────────────────────────────────── */
+    .section-divider {
+      padding: 80px 6vw 0;
+      display: flex; align-items: center; gap: 24px;
+    }
+
+    .divider-line { flex:1; height:1px; background: var(--border); }
+
+    .divider-label {
+      font-family: 'DM Mono', monospace;
+      font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold); white-space: nowrap;
+    }
+
+    /* ─────────────────────────────────────────
+       ABOUT / FEATURES SECTION
+    ───────────────────────────────────────── */
+    .section-features {
+      padding: 96px 6vw 112px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 72px; align-items: start;
+    }
+
+    .features-text {
+      position: sticky; top: 100px;
+    }
+
+    .features-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 4vw, 3.8rem);
+      font-weight: 900; line-height: 1.08;
+      margin-bottom: 20px;
+    }
+
+    .features-text h2 em { font-style: italic; color: var(--gold); }
+
+    .features-text > p {
+      font-size: 1rem; font-weight: 300; line-height: 1.8;
+      color: rgba(247,245,240,.65);
+      max-width: 420px; margin-bottom: 48px;
+      border-left: 2px solid var(--gold);
+      padding-left: 20px;
+    }
+
+    .feature-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+
+    .feature-list li {
+      display: flex; align-items: center; gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .95rem; font-weight: 400;
+      color: rgba(247,245,240,.8);
+      transition: color .2s;
+    }
+
+    .feature-list li:first-child { border-top: 1px solid var(--border); }
+    .feature-list li:hover { color: var(--white); }
+
+    .feature-list li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 18px; height: 18px;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='9' stroke='%23C8972A' stroke-width='1.5'/%3E%3Cpath d='M6 10l3 3 5-5' stroke='%23C8972A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+    }
+
+    /* ── FEATURES VISUAL — bento grid ── */
+    .features-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 14px;
+    }
+
+    .feat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 36px 28px;
+      transition: background .35s, transform .35s, border-color .35s, box-shadow .35s;
+      position: relative; overflow: hidden;
+    }
+
+    /* card destaque — ocupa coluna inteira */
+    .feat-card.feat-wide {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; gap: 36px;
+      padding: 40px 40px;
+      background: linear-gradient(120deg, rgba(200,151,42,.08) 0%, rgba(255,255,255,.03) 100%);
+      border-color: rgba(200,151,42,.2);
+    }
+
+    .feat-card.feat-wide .feat-icon {
+      flex-shrink: 0;
+      width: 64px; height: 64px;
+      border-radius: 18px;
+    }
+
+    .feat-card.feat-wide .feat-icon svg { width: 28px; height: 28px; }
+
+    .feat-card.feat-wide .feat-body { flex: 1; }
+
+    .feat-card.feat-wide h4 { font-size: 1.3rem; margin-bottom: 10px; }
+
+    .feat-card.feat-wide p { font-size: .95rem; max-width: 480px; }
+
+    .feat-card.feat-wide::after {
+      content: '';
+      position: absolute; top: -40px; right: -40px;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,151,42,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .feat-card:not(.feat-wide):hover {
+      background: rgba(200,151,42,.07);
+      border-color: rgba(200,151,42,.35);
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.3);
+    }
+
+    .feat-card.feat-wide:hover {
+      background: linear-gradient(120deg, rgba(200,151,42,.13) 0%, rgba(255,255,255,.05) 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.3);
+    }
+
+    .feat-icon {
+      width: 48px; height: 48px; margin-bottom: 20px;
+      background: rgba(200,151,42,.12);
+      border: 1px solid rgba(200,151,42,.2);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .3s;
+    }
+
+    .feat-card:hover .feat-icon { background: rgba(200,151,42,.2); }
+
+    .feat-icon svg { width: 22px; height: 22px; stroke: var(--gold); fill: none; stroke-width: 1.6; }
+
+    .feat-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 700;
+      margin-bottom: 10px; line-height: 1.2;
+    }
+
+    .feat-card p {
+      font-size: .85rem; font-weight: 300; line-height: 1.65;
+      color: rgba(247,245,240,.55);
+    }
+
+    .feat-card:hover p { color: rgba(247,245,240,.75); }
+
+    /* ─────────────────────────────────────────
+       HERO 2 — FRAME SEQUENCE (fardamento2) — EMPRESAS
+    ───────────────────────────────────────── */
+    #empresas {
+      position: relative;
+      width: 100%; height: 100svh;
+      display: flex; align-items: center; justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    .empresas-canvas {
+      position: absolute; inset: 0;
+    }
+
+    .empresas-canvas canvas {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .empresas-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        -105deg,
+        rgba(13,27,42,0.92) 0%,
+        rgba(13,27,42,0.55) 52%,
+        rgba(13,27,42,0.10) 100%
+      );
+    }
+
+    .empresas-content {
+      position: relative; z-index: 2;
+      padding: 0 6vw;
+      max-width: 700px;
+      text-align: right;
+    }
+
+    .empresas-content .hero-eyebrow { justify-content: flex-end; }
+    .empresas-content .hero-eyebrow::before { display: none; }
+    .empresas-content .hero-eyebrow::after {
+      content: '';
+      display: block; width: 32px; height: 1px;
+      background: var(--gold);
+    }
+
+    .empresas-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6.5vw, 6rem);
+      font-weight: 900; line-height: 1.04;
+      letter-spacing: -.02em;
+      margin-bottom: 28px;
+    }
+
+    .empresas-content h2 em { font-style: italic; color: var(--gold); }
+
+    .empresas-content p {
+      font-size: 1.05rem; font-weight: 300; line-height: 1.7;
+      color: rgba(247,245,240,.72);
+      margin-bottom: 44px;
+      max-width: 460px; margin-left: auto;
+    }
+
+    .empresas-content .btn-group { justify-content: flex-end; }
+
+    /* ─────────────────────────────────────────
+       MARQUEE STRIP
+    ───────────────────────────────────────── */
+    .marquee-strip {
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+      background: rgba(200,151,42,.04);
+    }
+
+    .marquee-track {
+      display: flex; align-items: center;
+      animation: marquee 22s linear infinite;
+      width: max-content;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .marquee-item {
+      display: inline-flex; align-items: center; gap: 20px;
+      padding: 0 40px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(247,245,240,.25);
+      white-space: nowrap;
+    }
+
+    .marquee-item span {
+      color: var(--gold); font-size: .7rem;
+    }
+
+    /* ─────────────────────────────────────────
+       PROCESS SECTION
+    ───────────────────────────────────────── */
+    .section-process {
+      padding: 100px 6vw;
+    }
+
+    .process-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 64px; gap: 32px;
+    }
+
+    .process-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 900; line-height: 1.1;
+    }
+
+    .process-header h2 em { font-style: italic; color: var(--gold); }
+
+    .process-header p {
+      max-width: 380px;
+      font-size: .95rem; font-weight: 300; line-height: 1.7;
+      color: rgba(247,245,240,.6);
+    }
+
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .step {
+      padding: 40px 32px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--border);
+      position: relative;
+      transition: background .3s;
+    }
+
+    .step:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+    .step:last-child  { border-radius: 0 var(--radius) var(--radius) 0; }
+
+    .step:hover { background: rgba(200,151,42,.05); }
+
+    .step-num {
+      font-family: 'DM Mono', monospace;
+      font-size: .72rem; letter-spacing: .14em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .step h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .step p {
+      font-size: .875rem; font-weight: 300; line-height: 1.65;
+      color: rgba(247,245,240,.6);
+    }
+
+    .step-arrow {
+      position: absolute; top: 40px; right: 32px;
+      width: 32px; height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      opacity: .4;
+    }
+
+    .step-arrow svg { width: 14px; height: 14px; stroke: var(--white); fill: none; stroke-width: 2; }
+
+    /* ─────────────────────────────────────────
+       TESTIMONIALS
+    ───────────────────────────────────────── */
+    .section-testimonials {
+      padding: 80px 6vw 100px;
+      background: linear-gradient(180deg, transparent, rgba(200,151,42,.04) 50%, transparent);
+    }
+
+    .testimonials-header {
+      text-align: center; margin-bottom: 56px;
+    }
+
+    .testimonials-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 900;
+    }
+
+    .testimonials-header h2 em { font-style: italic; color: var(--gold); }
+
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .testi-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      position: relative;
+      transition: transform .3s, background .3s;
+    }
+
+    .testi-card:hover { transform: translateY(-6px); background: rgba(255,255,255,.06); }
+
+    .testi-card::before {
+      content: '\201C';
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem; font-weight: 900;
+      color: var(--gold); opacity: .2;
+      position: absolute; top: 12px; left: 24px;
+      line-height: 1;
+    }
+
+    .testi-card blockquote {
+      font-size: .95rem; font-weight: 300; line-height: 1.75;
+      color: rgba(247,245,240,.8);
+      margin-bottom: 24px; padding-top: 32px;
+    }
+
+    .testi-meta {
+      display: flex; align-items: center; gap: 12px;
+    }
+
+    .testi-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold) 0%, #7B5E1A 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700; font-size: 1rem;
+      color: var(--navy);
+      flex-shrink: 0;
+    }
+
+    .testi-meta-text strong {
+      display: block; font-weight: 600; font-size: .9rem;
+    }
+
+    .testi-meta-text span {
+      font-size: .78rem; color: rgba(247,245,240,.45);
+    }
+
+    /* ─────────────────────────────────────────
+       CTA BANNER
+    ───────────────────────────────────────── */
+    .cta-banner {
+      margin: 0 6vw 80px;
+      padding: 80px 64px;
+      background: var(--gold);
+      border-radius: 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 40px;
+      position: relative; overflow: hidden;
+    }
+
+    .cta-banner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .cta-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 900; line-height: 1.1;
+      color: var(--navy); margin-bottom: 12px;
+    }
+
+    .cta-text p {
+      font-size: 1rem; font-weight: 300;
+      color: rgba(13,27,42,.72);
+      max-width: 440px;
+    }
+
+    .btn-dark {
+      flex-shrink: 0;
+      padding: 18px 44px;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600; font-size: 1rem;
+      letter-spacing: .04em;
+      border: none; border-radius: 50px;
+      cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 10px;
+      transition: background .25s, transform .2s, box-shadow .25s;
+      position: relative; z-index: 1;
+    }
+
+    .btn-dark:hover {
+      background: #0a141e;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(13,27,42,.4);
+    }
+
+    .btn-dark svg { width: 16px; height: 16px; fill: none; stroke: var(--white); stroke-width: 2; }
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 60px 6vw 40px;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand .nav-logo {
+      font-size: 1.4rem; margin-bottom: 16px; display: inline-flex;
+    }
+
+    .footer-brand p {
+      font-size: .875rem; font-weight: 300; line-height: 1.65;
+      color: rgba(247,245,240,.5);
+      max-width: 280px; margin-bottom: 24px;
+    }
+
+    .social-row { display: flex; gap: 12px; }
+
+    .social-btn {
+      width: 40px; height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(247,245,240,.6);
+      text-decoration: none;
+      transition: border-color .25s, color .25s, background .25s;
+    }
+
+    .social-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(200,151,42,.08);
+    }
+
+    .social-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+
+    .footer-col h5 {
+      font-size: .78rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(247,245,240,.5);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+
+    .footer-col ul a {
+      font-size: .875rem; font-weight: 300;
+      color: rgba(247,245,240,.65);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-col ul a:hover { color: var(--white); }
+
+    .footer-bottom {
+      grid-column: 1/-1;
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: .78rem; color: rgba(247,245,240,.35);
+    }
+
+    /* ─────────────────────────────────────────
+       VISIBILITY OBSERVER
+    ───────────────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .7s var(--ease), transform .7s var(--ease);
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal.delay-1 { transition-delay: .1s; }
+    .reveal.delay-2 { transition-delay: .2s; }
+    .reveal.delay-3 { transition-delay: .3s; }
+    .reveal.delay-4 { transition-delay: .4s; }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+    @media (max-width: 960px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .section-features { grid-template-columns: 1fr; gap: 48px; }
+      .features-visual { order: -1; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .step:first-child { border-radius: var(--radius) 0 0 0; }
+      .step:last-child  { border-radius: 0 0 var(--radius) 0; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      footer { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1/-1; }
+      .cta-banner { flex-direction: column; padding: 48px 36px; }
+      .process-header { flex-direction: column; }
+      .stats-bar { position: static; display: flex; flex-wrap: wrap; }
+    }
+
+    @media (max-width: 600px) {
+      h1, .empresas-content h2 { font-size: 2.6rem; }
+      .stat-item { padding: 16px 20px; }
+      .cta-banner { margin: 0 16px 48px; padding: 36px 24px; }
+      footer { grid-template-columns: 1fr; padding: 40px 24px 28px; }
+      .process-steps { grid-template-columns: 1fr; }
+      .step { border-radius: 0 !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════
+       NAV
+  ════════════════════════════════════════ -->
+  <nav>
+    <a href="#" class="nav-logo">
+      FARDART <span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#hero">Escolar</a></li>
+      <li><a href="#empresas">Empresarial</a></li>
+      <li><a href="#processo">Processo</a></li>
+      <li><a href="#contato" class="nav-cta">Solicitar Orçamento →</a></li>
+    </ul>
+  </nav>
+
+  <!-- ════════════════════════════════════════
+       HERO — FARDAMENTO ESCOLAR
+  ════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-canvas">
+      <canvas id="canvas1"></canvas>
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">Especialista em Fardamento</div>
+      <h1>Uniforme<br>que <em>forma</em><br>identidade.</h1>
+      <p class="hero-sub">
+        Fardamentos escolares com qualidade premium, personalização completa e entrega pontual.
+        Da pré-escola ao ensino médio, vestimos cada aluno com orgulho.
+      </p>
+      <div class="btn-group">
+        <a href="#contato" class="btn-primary">
+          Solicitar Orçamento
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#processo" class="btn-outline">Ver nosso processo</a>
+      </div>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <strong>+500</strong>
+        <small>Escolas atendidas</small>
+      </div>
+      <div class="stat-item">
+        <strong>12+</strong>
+        <small>Anos de mercado</small>
+      </div>
+      <div class="stat-item">
+        <strong>100%</strong>
+        <small>Personalizado</small>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       MARQUEE
+  ════════════════════════════════════════ -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span class="marquee-item">Fardamento Escolar <span>✦</span></span>
+      <span class="marquee-item">Uniformes para Empresas <span>✦</span></span>
+      <span class="marquee-item">Personalização Completa <span>✦</span></span>
+      <span class="marquee-item">Sublimação Digital <span>✦</span></span>
+      <span class="marquee-item">Bordado e Serigrafia <span>✦</span></span>
+      <span class="marquee-item">Entrega Garantida <span>✦</span></span>
+      <span class="marquee-item">Fardamento Escolar <span>✦</span></span>
+      <span class="marquee-item">Uniformes para Empresas <span>✦</span></span>
+      <span class="marquee-item">Personalização Completa <span>✦</span></span>
+      <span class="marquee-item">Sublimação Digital <span>✦</span></span>
+      <span class="marquee-item">Bordado e Serigrafia <span>✦</span></span>
+      <span class="marquee-item">Entrega Garantida <span>✦</span></span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       FEATURES — ESCOLAR
+  ════════════════════════════════════════ -->
+  <section class="section-features">
+    <div class="features-text reveal">
+      <h2>Fardamento <em>escolar</em> com identidade única</h2>
+      <p>
+        Desenvolvemos uniformes que expressam a identidade visual de cada instituição.
+        Tecidos resistentes, confortáveis e que conservam as cores por mais tempo — porque seu aluno merece qualidade.
+      </p>
+      <ul class="feature-list">
+        <li>Tecido 100% com certificação de qualidade</li>
+        <li>Personalização de logo, cores e detalhes</li>
+        <li>Tabela de tamanhos do 2 ao adulto EGG</li>
+        <li>Entrega dentro do prazo negociado</li>
+        <li>Amostras grátis para aprovação antes da produção</li>
+      </ul>
+    </div>
+    <div class="features-visual reveal delay-2">
+
+      <!-- card destaque — largura total -->
+      <div class="feat-card feat-wide">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="feat-body">
+          <h4>Durabilidade premium</h4>
+          <p>Costura reforçada em pontos críticos, tecidos técnicos de alta gramatura que conservam cor e forma mesmo após centenas de lavagens — porque um bom uniforme é investimento, não gasto.</p>
+        </div>
+      </div>
+
+      <!-- linha com 2 cards menores -->
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        </div>
+        <h4>Identidade Visual</h4>
+        <p>Brasão e cores da sua instituição aplicados com bordado ou sublimação de alta definição.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h4>Conforto diário</h4>
+        <p>Caimento ergonômico e tecidos respiráveis para que os alunos se movam à vontade.</p>
+      </div>
+
+      <!-- card full-width final -->
+      <div class="feat-card feat-wide" style="background: rgba(255,255,255,.03); border-color: var(--border);">
+        <div class="feat-icon" style="background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.1);">
+          <svg viewBox="0 0 24 24" style="stroke: var(--white);"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="feat-body">
+          <h4>Prazo garantido em contrato</h4>
+          <p>Gestão de produção rigorosa com data de entrega assegurada por escrito. Já atendemos mais de 500 escolas sem atrasos no calendário letivo.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       DIVIDER
+  ════════════════════════════════════════ -->
+  <div class="section-divider">
+    <div class="divider-line"></div>
+    <div class="divider-label">Uniformes Empresariais</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       HERO 2 — EMPRESAS
+  ════════════════════════════════════════ -->
+  <section id="empresas">
+    <div class="empresas-canvas">
+      <canvas id="canvas2"></canvas>
+    </div>
+    <div class="empresas-overlay"></div>
+
+    <div class="empresas-content">
+      <div class="hero-eyebrow">Para Empresas</div>
+      <h2>Sua marca,<br>no <em>uniforme</em><br>certo.</h2>
+      <p>
+        Uniformes corporativos que comunicam profissionalismo,
+        fortalecem a cultura da empresa e criam pertencimento na equipe.
+      </p>
+      <div class="btn-group">
+        <a href="#contato" class="btn-primary">
+          Pedir Orçamento
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#processo" class="btn-outline">Como funciona</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       PROCESSO
+  ════════════════════════════════════════ -->
+  <section id="processo" class="section-process">
+    <div class="process-header reveal">
+      <h2>Como <em>funciona</em><br>nosso processo</h2>
+      <p>
+        Da arte ao fardamento entregue — um fluxo simples e transparente
+        pensado para que você não se preocupe com nada.
+      </p>
+    </div>
+    <div class="process-steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div class="step-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        <h3>Briefing</h3>
+        <p>Entendemos sua marca, as necessidades da equipe e os prazos desejados.</p>
+      </div>
+      <div class="step reveal delay-1">
+        <div class="step-num">02</div>
+        <div class="step-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        <h3>Criação</h3>
+        <p>Nossa equipe desenvolve o design aplicado ao modelo de uniforme escolhido.</p>
+      </div>
+      <div class="step reveal delay-2">
+        <div class="step-num">03</div>
+        <div class="step-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        <h3>Aprovação</h3>
+        <p>Enviamos amostras físicas ou digitais para sua aprovação antes de produzir.</p>
+      </div>
+      <div class="step reveal delay-3">
+        <div class="step-num">04</div>
+        <div class="step-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        <h3>Entrega</h3>
+        <p>Produção com controle de qualidade e entrega no prazo acordado em contrato.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       TESTIMONIALS
+  ════════════════════════════════════════ -->
+  <section class="section-testimonials">
+    <div class="testimonials-header reveal">
+      <h2>O que nossos <em>clientes</em> dizem</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testi-card reveal">
+        <blockquote>
+          "Os uniformes da FARDART transformaram a imagem da nossa escola.
+          Qualidade impecável, entregaram antes do prazo e os pais amaram o resultado."
+        </blockquote>
+        <div class="testi-meta">
+          <div class="testi-avatar">MR</div>
+          <div class="testi-meta-text">
+            <strong>Maria Regina</strong>
+            <span>Diretora — Colégio São Lucas</span>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal delay-1">
+        <blockquote>
+          "Fizemos o pedido para 80 colaboradores. O atendimento foi excelente,
+          as peças chegaram perfeitas e nossa equipe ficou muito satisfeita com o conforto."
+        </blockquote>
+        <div class="testi-meta">
+          <div class="testi-avatar">FP</div>
+          <div class="testi-meta-text">
+            <strong>Felipe Pereira</strong>
+            <span>RH — Construtora Apex</span>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal delay-2">
+        <blockquote>
+          "Parceria de mais de 5 anos. Sempre nos surpreendem com novos modelos
+          e mantêm o mesmo nível de qualidade que nos fez escolhê-los desde o início."
+        </blockquote>
+        <div class="testi-meta">
+          <div class="testi-avatar">CA</div>
+          <div class="testi-meta-text">
+            <strong>Carla Andrade</strong>
+            <span>Gestora — Rede de Farmácias Vida+</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       CTA BANNER
+  ════════════════════════════════════════ -->
+  <div id="contato" class="cta-banner reveal">
+    <div class="cta-text">
+      <h2>Pronto para vestir<br>sua equipe?</h2>
+      <p>Solicite um orçamento sem compromisso. Respondemos em até 24 horas úteis.</p>
+    </div>
+    <a href="https://wa.me/5500000000000" class="btn-dark">
+      Falar pelo WhatsApp
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-brand">
+      <a href="#" class="nav-logo">FARDART <span></span></a>
+      <p>
+        Especialistas em fardamentos escolares e uniformes empresariais.
+        Qualidade, identidade e entrega garantida.
+      </p>
+      <div class="social-row">
+        <a href="#" class="social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" class="social-btn" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" class="social-btn" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Produtos</h5>
+      <ul>
+        <li><a href="#">Fardamento Escolar</a></li>
+        <li><a href="#">Uniformes Empresariais</a></li>
+        <li><a href="#">Camisetas Personalizadas</a></li>
+        <li><a href="#">Bonés e Acessórios</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Empresa</h5>
+      <ul>
+        <li><a href="#">Sobre a FARDART</a></li>
+        <li><a href="#">Nosso Processo</a></li>
+        <li><a href="#">Portfólio</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contato</h5>
+      <ul>
+        <li><a href="#">WhatsApp</a></li>
+        <li><a href="#">E-mail</a></li>
+        <li><a href="#">Solicitar Orçamento</a></li>
+        <li><a href="#">Fale Conosco</a></li>
+      </ul>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 FARDART. Todos os direitos reservados.</span>
+      <span>Fardamentos com arte e identidade.</span>
+    </div>
+  </footer>
+
+  <!-- ════════════════════════════════════════
+       SCRIPTS — FRAME SEQUENCE PLAYER
+  ════════════════════════════════════════ -->
+  <script>
+    /* ── Generic frame-sequence player ── */
+    function createFramePlayer(canvasId, folder, frameCount, fps) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+      const images = [];
+      let loaded = 0;
+      let current = 0;
+      let playing = false;
+
+      function resize() {
+        canvas.width  = canvas.offsetWidth  * window.devicePixelRatio;
+        canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        draw(current);
+      }
+
+      function draw(idx) {
+        if (!images[idx] || !images[idx].complete) return;
+        const img = images[idx];
+        const cw = canvas.offsetWidth;
+        const ch = canvas.offsetHeight;
+        const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+        const sw = img.naturalWidth  * scale;
+        const sh = img.naturalHeight * scale;
+        const sx = (cw - sw) / 2;
+        const sy = (ch - sh) / 2;
+        ctx.clearRect(0, 0, cw, ch);
+        ctx.drawImage(img, sx, sy, sw, sh);
+      }
+
+      function tick() {
+        if (!playing) return;
+        current = (current + 1) % frameCount;
+        draw(current);
+        setTimeout(tick, 1000 / fps);
+      }
+
+      function start() {
+        if (!playing) { playing = true; tick(); }
+      }
+
+      /* pre-load all frames */
+      for (let i = 1; i <= frameCount; i++) {
+        const img = new Image();
+        const num = String(i).padStart(3, '0');
+        img.src = `assets/${folder}/ezgif-frame-${num}.jpg`;
+        img.onload = () => {
+          loaded++;
+          if (loaded === 1) { draw(0); resize(); }
+          if (loaded === frameCount) { start(); }
+        };
+        images.push(img);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+    }
+
+    /* hero 1 — fardamento escolar */
+    createFramePlayer('canvas1', 'fradamento1', 40, 8);
+
+    /* hero 2 — fardamento empresarial */
+    createFramePlayer('canvas2', 'fradamento2', 40, 8);
+
+    /* ── Intersection Observer for reveal ── */
+    const revealEls = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealEls.forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
